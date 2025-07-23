@@ -108,3 +108,53 @@ nav ul li a:hover {
     padding-left: 20px;
   }
 }
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #002244, #003366);
+  color: white;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #00cc99;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #009977;
+}
+
+/* Make text smaller on small screens */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+}
