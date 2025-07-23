@@ -3,73 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Escrow Service - Home</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>EscrowClass Clone</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
   <header>
-    <div class="container nav-container">
-      <h1 class="logo">EscrowX</h1>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="privacy.html">Privacy Policy</a></li>
-        </ul>
-      </nav>
-      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <div class="logo">EscrowClass</div>
+
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+
+    <nav id="nav-menu">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blogs</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="auth-buttons" id="auth-buttons">
+      <button>Login</button>
+      <button>Get Started</button>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="container">
-      <h2>Secure Online Escrow Payments</h2>
-      <p>Protect your transactions with our trusted third-party service. Send and receive money safely.</p>
-      <a href="#" class="btn">Start a Transaction</a>
-    </div>
-  </section>
-
-  <section class="features">
-    <div class="container">
-      <h3>Why Choose Us?</h3>
-      <div class="feature-grid">
-        <div class="feature">
-          <h4>Secure Transactions</h4>
-          <p>Your money is only released when both parties are satisfied.</p>
-        </div>
-        <div class="feature">
-          <h4>Transparency</h4>
-          <p>Every step is tracked and verified to prevent fraud.</p>
-        </div>
-        <div class="feature">
-          <h4>Support 24/7</h4>
-          <p>We're always here to help with your escrow needs.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 EscrowX. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="about.html">About Us</a>
-        <a href="contact.html">Contact</a>
-        <a href="privacy.html">Privacy Policy</a>
-      </div>
-    </div>
-  </footer>
-
-<div style="text-align:center; margin-top: 30px;">
-  <a href="dashboard.html" class="login-btn">Login / Sign Up</a>
-</div>
-
   <script>
     function toggleMenu() {
-      const nav = document.querySelector('.nav-links');
+      const nav = document.getElementById('nav-menu');
+      const buttons = document.getElementById('auth-buttons');
       nav.classList.toggle('active');
+      buttons.classList.toggle('active');
     }
   </script>
+
 </body>
 </html>
