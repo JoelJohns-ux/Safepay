@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escrow Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    .navbar {
+      background-color: #0d3b66;
+      padding: 1rem 2rem;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      border-bottom: 1px solid #ccc;
+    }
+    .dashboard-container {
+      padding: 2rem;
+      display: none;
+    }
+    .dashboard-header {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background-color: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      flex: 1 1 200px;
+      text-align: center;
+    }
+    .card h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: #666;
+    }
+    .card p {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 0.5rem 0 0;
+    }
+    .transactions-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .transactions-table th,
+    .transactions-table td {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+    .transactions-table th {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+    .status-held {
+      background-color: #ffcc5c;
+      color: #333;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+    .status-completed {
+      background-color: #b2f2bb;
+      color: #333;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+    .escrow-actions {
+      margin-top: 2rem;
+    }
+    .escrow-actions a {
+      display: inline-block;
+      margin-right: 1rem;
+      color: #0d3b66;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .escrow-actions a:hover {
+      text-decoration: underline;
+    }
+    .auth-container {
+      max-width: 400px;
+      margin: 5rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .auth-container h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .auth-container input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .auth-container button {
+      width: 100%;
+      padding: 0.8rem;
+      background: #0d3b66;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .auth-container .switch {
+      text-align: center;
+      margin-top: 1rem;
+      color: #0d3b66;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      .stats {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div>ESCROW</div>
+    <div id="userDisplay">Guest</div>
+  </div>  <div class="auth-container" id="authContainer">
+    <h2 id="authTitle">Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="handleAuth()">Submit</button>
+    <div class="switch" onclick="toggleAuth()">Don't have an account? Sign up</div>
+  </div>  <div class="dashboard-container" id="dashboardContainer">
+    <div class="dashboard-header">Dashboard</div><div class="stats">
+  <div class="card">
+    <h3>Balance</h3>
+    <p>$5,000.00</p>
+  </div>
+  <div class="card">
+    <h3>Transactions</h3>
+    <p>15</p>
+  </div>
+  <div class="card">
+    <h3>Pending</h3>
+    <p>2</p>
+  </div>
+</div>
+
+<h2>Recent Transactions</h2>
+<table class="transactions-table">
+  <thead>
+    <tr>
+      <th>Transaction ID</th>
+      <th>Escrow Title</th>
+      <th>Amount</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>123456</td>
+      <td>Payment for Services</td>
+      <td>$1,000.00</td>
+      <td><span class="status-held">Held</span></td>
+    </tr>
+    <tr>
+      <td>234567</td>
+      <td>Online Purchase</td>
+      <td>$500.00</td>
+      <td><span class="status-completed">Completed</span></td>
+    </tr>
+    <tr>
+      <td>345678</td>
+      <td>Freelance Work</td>
+      <td>$2,000.00</td>
+      <td><span class="status-completed">Completed</span></td>
+    </tr>
+    <tr>
+      <td>456789</td>
+      <td>Item Sale</td>
+      <td>$1,500.00</td>
+      <td><span class="status-completed">Completed</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="escrow-actions">
+  <a href="#">Send Payment</a>
+  <a href="#">Request Payment</a>
+  <a href="#">View Escrows</a>
+</div>
+
+  </div>  <script>
+    let isLogin = true;
+
+    function toggleAuth() {
+      isLogin = !isLogin;
+      document.getElementById('authTitle').innerText = isLogin ? 'Login' : 'Sign Up';
+      document.querySelector('.switch').innerText = isLogin ? "Don't have an account? Sign up" : "Already have an account? Log in";
+    }
+
+    function handleAuth() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (username === '' || password === '') {
+        alert('Please enter username and password');
+        return;
+      }
+
+      // Fake local validation simulation
+      localStorage.setItem('escrow_user', username);
+      document.getElementById('userDisplay').innerText = username;
+      document.getElementById('authContainer').style.display = 'none';
+      document.getElementById('dashboardContainer').style.display = 'block';
+    }
+
+    // Auto-login if user is stored in localStorage
+    window.onload = () => {
+      const savedUser = localStorage.getItem('escrow_user');
+      if (savedUser) {
+        document.getElementById('userDisplay').innerText = savedUser;
+        document.getElementById('authContainer').style.display = 'none';
+        document.getElementById('dashboardContainer').style.display = 'block';
+      }
+    };
+  </script></body>
+</html>
