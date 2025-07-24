@@ -23,10 +23,46 @@
     </nav>
 
     <div class="auth-buttons" id="auth-buttons">
-      <button>Login</button>
-      <button>Get Started</button>
+      <button onclick="openLogin()">Login</button>
+      <button onclick="openSignup()">Get Started</button>
     </div>
   </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Secure Online Transactions</h1>
+      <p>Protecting your payments with confidence. EscrowClass makes every deal safe, simple, and transparent.</p>
+      <a href="#" class="cta-button">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Login</h2>
+      <form>
+        <input type="email" placeholder="Email" required>
+        <input type="password" placeholder="Password" required>
+        <a href="#" class="forgot-link">Forgot password?</a>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div id="signup-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Sign Up</h2>
+      <form>
+        <input type="email" placeholder="Email" required>
+        <input type="text" placeholder="Username" required>
+        <input type="password" placeholder="Password" required>
+        <button type="submit">Get Started</button>
+      </form>
+    </div>
+  </div>
 
   <script>
     function toggleMenu() {
@@ -35,15 +71,28 @@
       nav.classList.toggle('active');
       buttons.classList.toggle('active');
     }
-  </script>
 
-<section class="hero">
-  <div class="hero-content">
-    <h1>Secure Online Transactions</h1>
-    <p>Protecting your payments with confidence. EscrowClass makes every deal safe, simple, and transparent.</p>
-    <a href="#" class="cta-button">Get Started</a>
-  </div>
-</section>
+    function openLogin() {
+      document.getElementById('login-modal').style.display = 'block';
+    }
+
+    function openSignup() {
+      document.getElementById('signup-modal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('login-modal').style.display = 'none';
+      document.getElementById('signup-modal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      const loginModal = document.getElementById('login-modal');
+      const signupModal = document.getElementById('signup-modal');
+      if (event.target == loginModal) loginModal.style.display = 'none';
+      if (event.target == signupModal) signupModal.style.display = 'none';
+    }
+  </script>
 
 </body>
 </html>
