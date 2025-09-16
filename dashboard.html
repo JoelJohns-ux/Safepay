@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escrow Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#64748B',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#EF4444',
+                        info: '#3B82F6'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-md transform transition-transform duration-300 ease-in-out md:translate-x-0 -translate-x-full fixed md:relative h-full z-10">
+            <div class="p-5 border-b border-gray-200">
+                <h1 class="text-xl font-semibold text-gray-800">EscrowPro</h1>
+            </div>
+            <nav class="mt-5">
+    <a href="dashboard.html" class="flex items-center px-6 py-3 text-primary bg-blue-50 border-r-4 border-primary">
+        <i class="fas fa-chart-pie mr-3"></i>
+        <span>Dashboard</span>
+    </a>
+    <a href="transactions.html" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100">
+        <i class="fas fa-exchange-alt mr-3"></i>
+        <span>Transactions</span>
+    </a>
+    <a href="active-escrows.html" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100">
+        <i class="fas fa-clock mr-3"></i>
+        <span>Active Escrows</span>
+    </a>
+    <a href="completed-escrows.html" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100">
+        <i class="fas fa-check-circle mr-3"></i>
+        <span>Completed Escrows</span>
+    </a>
+    <a href="settings.html" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100">
+        <i class="fas fa-cog mr-3"></i>
+        <span>Settings</span>
+    </a>
+    <a href="profile.html" class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100">
+        <i class="fas fa-user mr-3"></i>
+        <span>Profile</span>
+    </a>
+
+    <!-- Optional: Logout Button Placeholder -->
+    <button id="logout-btn" class="flex items-center w-full px-6 py-3 text-red-600 font-medium hover:bg-red-50 mt-4 focus:outline-none">
+    <i class="fas fa-power-off mr-3"></i>
+    <span>Log out</span>
+</button>
+
+<div class="absolute bottom-0 w-full p-4 border-t border-gray-200">
+    <div class="flex items-center">
+        <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white" id="dashboard-avatar">
+    <span>JD</span>
+</div>
+<div class="ml-3">
+    <p class="text-sm font-medium" id="dashboard-username">John Doe</p>
+    <p class="text-xs text-gray-500">Administrator</p>
+        </div>
+    </div>
+</div>
+</aside>
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col md:ml-0">
+            <!-- Top Navbar -->
+            <header class="bg-white shadow-sm z-10">
+                <div class="flex items-center justify-between p-4">
+                    <button id="sidebar-toggle" class="md:hidden text-gray-500 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    
+                    <div class="flex-1 mx-4">
+                        <div class="relative">
+                            <input type="text" placeholder="Search transactions..." class="w-full md:w-64 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <div class="relative mr-4">
+                            <button class="text-gray-500 focus:outline-none">
+                                <i class="far fa-bell text-xl"></i>
+                            </button>
+                            <span class="absolute -top-1 -right-1 bg-danger text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">3</span>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white" id="dashboard-avatar-top">
+    <span>JD</span>
+</div>
+<span class="ml-2 text-gray-700 md:block hidden" id="profile-name">John Doe</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Area -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">Dashboard Overview</h2>
+                
+                <!-- Overview Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-blue-50 text-primary">
+                                <i class="fas fa-file-contract text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm text-gray-500">Total Escrows</h3>
+                                <p class="text-2xl font-semibold text-gray-800">142</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-orange-50 text-warning">
+                                <i class="fas fa-clock text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm text-gray-500">Active Escrows</h3>
+                                <p class="text-2xl font-semibold text-gray-800">24</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-green-50 text-success">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm text-gray-500">Completed Escrows</h3>
+                                <p class="text-2xl font-semibold text-gray-800">98</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-lg bg-yellow-50 text-warning">
+                                <i class="fas fa-clock text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-sm text-gray-500">Pending Payments</h3>
+                                <p class="text-2xl font-semibold text-gray-800">$12,540</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-medium text-gray-800 mb-4">Quick Actions</h3>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-plus-circle mr-2"></i> Create Escrow
+                        </button>
+                        <button class="bg-success hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-money-bill-wave mr-2"></i> Release Payment
+                        </button>
+                        <button class="bg-danger hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-exclamation-triangle mr-2"></i> Dispute
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Recent Transactions -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-medium text-gray-800">Recent Transactions</h3>
+                        <button class="text-primary text-sm font-medium">View All</button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-gray-500 text-sm border-b">
+                                    <th class="pb-3">ID</th>
+                                    <th class="pb-3">Parties</th>
+                                    <th class="pb-3">Amount</th>
+                                    <th class="pb-3">Status</th>
+                                    <th class="pb-3">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr class="text-sm">
+                                    <td class="py-4">#ESC-4892</td>
+                                    <td class="py-4">John Doe → Acme Inc</td>
+                                    <td class="py-4">$4,500.00</td>
+                                    <td class="py-4"><span class="px-2 py-1 bg-green-100 text-success rounded-full text-xs">Completed</span></td>
+                                    <td class="py-4">Oct 12, 2023</td>
+                                </tr>
+                                <tr class="text-sm">
+                                    <td class="py-4">#ESC-4891</td>
+                                    <td class="py-4">Global Corp → Tech Solutions</td>
+                                    <td class="py-4">$12,800.00</td>
+                                    <td class="py-4"><span class="px-2 py-1 bg-blue-100 text-info rounded-full text-xs">In Progress</span></td>
+                                    <td class="py-4">Oct 11, 2023</td>
+                                </tr>
+                                <tr class="text-sm">
+                                    <td class="py-4">#ESC-4890</td>
+                                    <td class="py-4">Sarah Smith → Robert Johnson</td>
+                                    <td class="py-4">$3,200.00</td>
+                                    <td class="py-4"><span class="px-2 py-1 bg-yellow-100 text-warning rounded-full text-xs">Pending</span></td>
+                                    <td class="py-4">Oct 10, 2023</td>
+                                </tr>
+                                <tr class="text-sm">
+                                    <td class="py-4">#ESC-4889</td>
+                                    <td class="py-4">Design Studio → Marketing Agency</td>
+                                    <td class="py-4">$7,500.00</td>
+                                    <td class="py-4"><span class="px-2 py-1 bg-red-100 text-danger rounded-full text-xs">Disputed</span></td>
+                                    <td class="py-4">Oct 9, 2023</td>
+                                </tr>
+                                <tr class="text-sm">
+                                    <td class="py-4">#ESC-4888</td>
+                                    <td class="py-4">Alice Williams → Bob Thompson</td>
+                                    <td class="py-4">$2,100.00</td>
+                                    <td class="py-4"><span class="px-2 py-1 bg-green-100 text-success rounded-full text-xs">Completed</span></td>
+                                    <td class="py-4">Oct 8, 2023</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+    	const sidebarToggle = document.getElementById('sidebar-toggle');
+const sidebar = document.getElementById('sidebar');
+
+if (sidebarToggle && sidebar) {
+    sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
+    });
+}
+
+const logoutBtn = document.getElementById("logout-btn");
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+        sessionStorage.removeItem("loggedInUser");
+        window.location.replace("index.html");
+    });
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Get logged-in user from sessionStorage
+    const loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+
+    if (loggedInUser && loggedInUser.fullname) {
+        // Update full name
+        const profileNameEl = document.getElementById("profile-name");
+        if (profileNameEl) {
+            profileNameEl.textContent = loggedInUser.fullname;
+        }
+
+        // Update initials
+        const initialsEl = document.getElementById("dashboard-avatar-top");
+        if (initialsEl) {
+            const initials = loggedInUser.fullname
+                .split(" ")
+                .map(word => word.charAt(0).toUpperCase())
+                .join("")
+                .slice(0, 2); // Limit to 2 letters
+            initialsEl.textContent = initials;
+        }
+    } else {
+        // If no user is logged in, optionally redirect to login
+        window.location.href = "login.html";
+    }
+});
+</script>
+</body>
+</html>

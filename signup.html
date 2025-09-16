@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .toast {
+            animation: fadeIn 0.3s, fadeOut 0.3s 2.7s forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50"></div>
+
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <!-- Logo -->
+        <div class="flex justify-center">
+            <img class="h-16 w-auto" src="http://static.photos/minimal/200x200/1" alt="Logo">
+        </div>
+
+        <!-- Card -->
+        <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-900 mb-1">Create Your Account</h2>
+                <p class="text-gray-500">Join us to manage your escrow transactions securely</p>
+            </div>
+
+            <form id="signupForm" class="mt-4 space-y-4" novalidate>
+                <!-- Full Name -->
+                <div>
+                    <label for="fullname" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input id="fullname" name="fullname" type="text" autocomplete="name" placeholder="Full Name" 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-200 focus:border-green-600">
+                    <p id="fullname-error" class="hidden text-sm text-red-600 mt-1">Full name is required</p>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input id="email" name="email" type="email" autocomplete="email" placeholder="Email Address" 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-200 focus:border-green-600">
+                    <p id="email-error" class="hidden text-sm text-red-600 mt-1">Please enter a valid email</p>
+                </div>
+
+                <!-- Phone -->
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="Phone Number" 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-200 focus:border-green-600">
+                    <p id="phone-error" class="hidden text-sm text-red-600 mt-1">Phone number is required</p>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Password" 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-200 focus:border-green-600">
+                    <p id="password-error" class="hidden text-sm text-red-600 mt-1">Password must be at least 8 characters</p>
+                </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Confirm Password" 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-green-200 focus:border-green-600">
+                    <p id="confirmPassword-error" class="hidden text-sm text-red-600 mt-1">Passwords don't match</p>
+                </div>
+
+                <!-- Terms & Conditions -->
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="terms" name="terms" type="checkbox" 
+                            class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="terms" class="font-medium text-gray-700">I agree to the <a href="#" class="text-blue-600 hover:text-blue-500">Terms & Conditions</a></label>
+                        <p id="terms-error" class="hidden text-sm text-red-600 mt-1">You must accept the terms</p>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit" 
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-transform">
+                        Sign Up
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6 text-center text-sm">
+                <p class="text-gray-500">
+                    Already have an account? <a href="login.html" class="font-medium text-blue-600 hover:text-blue-500">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in
+            if (sessionStorage.getItem('loggedInUser')) {
+                window.location.href = 'dashboard.html';
+            }
+
+            // Initialize AOS
+            AOS.init();
+            feather.replace();
+
+            // Form validation
+            const form = document.getElementById('signupForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset errors
+                document.querySelectorAll('[id$="-error"]').forEach(el => el.classList.add('hidden'));
+                
+                // Validate inputs
+                let isValid = true;
+                const fullname = document.getElementById('fullname');
+                const email = document.getElementById('email');
+                const phone = document.getElementById('phone');
+                const password = document.getElementById('password');
+                const confirmPassword = document.getElementById('confirmPassword');
+                const terms = document.getElementById('terms');
+
+                if (!fullname.value.trim()) {
+                    document.getElementById('fullname-error').classList.remove('hidden');
+                    isValid = false;
+                }
+
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                    document.getElementById('email-error').classList.remove('hidden');
+                    isValid = false;
+                }
+
+                if (!phone.value.trim()) {
+                    document.getElementById('phone-error').classList.remove('hidden');
+                    isValid = false;
+                }
+
+                if (password.value.length < 8) {
+                    document.getElementById('password-error').classList.remove('hidden');
+                    isValid = false;
+                }
+
+                if (password.value !== confirmPassword.value) {
+                    document.getElementById('confirmPassword-error').classList.remove('hidden');
+                    isValid = false;
+                }
+
+                if (!terms.checked) {
+                    document.getElementById('terms-error').classList.remove('hidden');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    processSignup({
+                        fullname: fullname.value.trim(),
+                        email: email.value.trim(),
+                        phone: phone.value.trim(),
+                        password: password.value
+                    });
+                }
+            });
+
+            function processSignup(userData) {
+                // Get existing users or initialize array
+                let users = JSON.parse(localStorage.getItem('users')) || [];
+                
+                // Check if email exists
+                const emailExists = users.some(user => user.email === userData.email);
+                
+                if (emailExists) {
+                    showToast('An account with this email already exists', 'error');
+                } else {
+                    // Add new user
+                    users.push(userData);
+                    localStorage.setItem('users', JSON.stringify(users));
+                    
+                    // Store in session
+                    sessionStorage.setItem('loggedInUser', JSON.stringify(userData));
+                    
+                    // Show success and redirect
+                    showToast('Account created successfully', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 3000);
+                }
+            }
+
+            function showToast(message, type) {
+                const toastContainer = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                
+                toast.className = `toast p-4 rounded-md shadow-lg mb-2 flex items-center ${
+                    type === 'success' 
+                        ? 'bg-green-100 text-green-700' 
+                        : 'bg-red-100 text-red-700'
+                }`;
+                
+                const icon = type === 'success' ? 'check-circle' : 'x-circle';
+                toast.innerHTML = `
+                    <i data-feather="${icon}" class="mr-2"></i>
+                    <span>${message}</span>
+                `;
+                
+                toastContainer.appendChild(toast);
+                feather.replace();
+                
+                // Auto remove after animation
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            }
+        });
+
+        // Prevent back navigation after signup
+        window.onpageshow = function(event) {
+            if (event.persisted && sessionStorage.getItem('loggedInUser')) {
+                window.location.href = 'dashboard.html';
+            }
+        };
+    </script>
+</body>
+</html>
