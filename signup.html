@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Secure Escrow Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#1A73E8',
+                            green: '#10B981',
+                            'green-dark': '#0D966B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .toast {
+            transition: opacity 0.5s ease-in-out;
+        }
+        .fade-out {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <!-- Brand Logo -->
+        <div class="flex justify-center mb-6">
+            <div class="w-16 h-16 bg-brand-green rounded-full flex items-center justify-center text-white text-2xl font-bold">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+        </div>
+        
+        <!-- Signup Card -->
+        <div class="bg-white shadow-lg rounded-lg p-6 md:p-8">
+            <h1 class="text-3xl font-bold text-gray-900 text-center mb-1">Create Your Account</h1>
+            <p class="text-gray-500 text-center mb-2">Join us to manage your escrow transactions securely</p>
+            
+            <form id="signupForm" class="mt-4 space-y-4">
+                <!-- Full Name Field -->
+                <div>
+                    <label for="fullname" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Full Name" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:border-brand-blue focus:ring-1 focus:ring-blue-200 outline-none transition">
+                    <div id="fullname-error" class="text-sm text-red-600 mt-1 hidden"></div>
+                </div>
+                
+                <!-- Email Field -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Email Address" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:border-brand-blue focus:ring-1 focus:ring-blue-200 outline-none transition">
+                    <div id="email-error" class="text-sm text-red-600 mt-1 hidden"></div>
+                </div>
+                
+                <!-- Phone Number Field -->
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Phone Number" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:border-brand-blue focus:ring-1 focus:ring-blue-200 outline-none transition">
+                    <div id="phone-error" class="text-sm text-red-600 mt-1 hidden"></div>
+                </div>
+                
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:border-brand-blue focus:ring-1 focus:ring-blue-200 outline-none transition">
+                    <div id="password-error" class="text-sm text-red-600 mt-1 hidden"></div>
+                </div>
+                
+                <!-- Confirm Password Field -->
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:border-brand-blue focus:ring-1 focus:ring-blue-200 outline-none transition">
+                    <div id="confirmPassword-error" class="text-sm text-red-600 mt-1 hidden"></div>
+                </div>
+                
+                <!-- Terms & Conditions -->
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="terms" name="terms" type="checkbox" 
+                               class="focus:ring-brand-blue h-4 w-4 text-brand-blue border-gray-300 rounded">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="terms" class="font-medium text-gray-700">I agree to the <a href="#" class="text-brand-blue hover:underline">Terms & Conditions</a></label>
+                        <div id="terms-error" class="text-sm text-red-600 mt-1 hidden"></div>
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" 
+                        class="w-full bg-brand-green hover:bg-brand-green-dark text-white font-bold py-3 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green shadow hover:shadow-md">
+                    Create Account
+                </button>
+            </form>
+            
+            <!-- Login Link -->
+            <div class="mt-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Already have an account? 
+                    <a href="login.html" class="text-brand-blue font-medium hover:underline">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 space-y-2 w-80 max-w-full"></div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --- Session Tracking ---
+    function setLoggedInUser(user, remember = false) {
+        const storage = remember ? localStorage : sessionStorage;
+        storage.setItem('loggedInUser', JSON.stringify(user));
+    }
+
+    function getLoggedInUser() {
+        const user = sessionStorage.getItem('loggedInUser') || localStorage.getItem('loggedInUser');
+        return user ? JSON.parse(user) : null;
+    }
+
+    function clearLoggedInUser() {
+        sessionStorage.removeItem('loggedInUser');
+        localStorage.removeItem('loggedInUser');
+    }
+
+    // --- Back-Button Handling ---
+    function handleBackButton() {
+        const loggedInUser = getLoggedInUser();
+        const currentPage = window.location.pathname;
+
+        if (loggedInUser) {
+            if (currentPage.includes('login.html') || currentPage.includes('signup.html')) {
+                window.location.replace('dashboard.html');
+            }
+        }
+    }
+    window.addEventListener('pageshow', handleBackButton);
+
+    // --- UI Resets ---
+    function resetUI() {
+        ['fullname', 'email', 'phone', 'password', 'confirmPassword', 'terms']
+            .forEach(fieldId => hideError(fieldId));
+
+        const toastContainer = document.getElementById('toastContainer');
+        if (toastContainer) toastContainer.innerHTML = '';
+    }
+    resetUI();
+
+    // --- Page Specific: Signup ---
+    const form = document.getElementById('signupForm');
+    const toastContainer = document.getElementById('toastContainer');
+
+    function validateFullName(fullname) { return fullname.trim() !== ''; }
+    function validateEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+    function validatePhone(phone) { return phone.trim() !== ''; }
+    function validatePassword(password) { return password.length >= 8; }
+    function validateConfirmPassword(password, confirmPassword) { return password === confirmPassword; }
+    function validateTerms(terms) { return terms; }
+
+    function showError(fieldId, message) {
+        const errorElement = document.getElementById(`${fieldId}-error`);
+        errorElement.textContent = message;
+        errorElement.classList.remove('hidden');
+    }
+
+    function hideError(fieldId) {
+        const errorElement = document.getElementById(`${fieldId}-error`);
+        errorElement.classList.add('hidden');
+    }
+
+    function createToast(message, type) {
+        const toast = document.createElement('div');
+        toast.className = `toast p-4 rounded-md shadow-md flex items-center ${
+            type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+        }`;
+
+        toast.innerHTML = `
+            <i class="${type === 'success' ? 'fa-solid fa-check-circle' : 'fa-solid fa-times-circle'} mr-2"></i>
+            <span>${message}</span>
+        `;
+
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('fade-out');
+            setTimeout(() => toastContainer.removeChild(toast), 500);
+        }, 2500);
+    }
+
+    // --- Form Submission ---
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const fullname = document.getElementById('fullname').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const terms = document.getElementById('terms').checked;
+
+        // Reset errors
+        hideError('fullname'); hideError('email'); hideError('phone');
+        hideError('password'); hideError('confirmPassword'); hideError('terms');
+
+        let isValid = true;
+        if (!validateFullName(fullname)) { showError('fullname', 'Full name is required'); isValid = false; }
+        if (!validateEmail(email)) { showError('email', 'Please enter a valid email address'); isValid = false; }
+        if (!validatePhone(phone)) { showError('phone', 'Phone number is required'); isValid = false; }
+        if (!validatePassword(password)) { showError('password', 'Password must be at least 8 characters'); isValid = false; }
+        if (!validateConfirmPassword(password, confirmPassword)) { showError('confirmPassword', 'Passwords do not match'); isValid = false; }
+        if (!validateTerms(terms)) { showError('terms', 'You must accept the terms and conditions'); isValid = false; }
+
+        if (!isValid) return;
+
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const emailExists = users.some(user => user.email === email);
+
+        if (emailExists) {
+            createToast('An account with this email already exists', 'error');
+            return;
+        }
+
+        const newUser = { fullname, email, phone, password };
+        users.push(newUser);
+        localStorage.setItem('users', JSON.stringify(users));
+
+        createToast('Account created successfully', 'success');
+
+        setTimeout(() => { window.location.href = 'login.html'; }, 3000);
+    });
+});
+</script>
+</body>
+</html>
