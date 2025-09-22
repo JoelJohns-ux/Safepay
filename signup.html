@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Secure Escrow Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .toast {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        input:focus, button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed top-4 right-4 z-50 w-80 space-y-2"></div>
+
+    <!-- Header with Logo -->
+    <header class="py-6 px-4 bg-white shadow-sm">
+        <div class="container mx-auto flex justify-center">
+            <div class="flex items-center">
+                <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center mr-3">
+                    <i class="fas fa-lock text-white text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold text-gray-800">SecureEscrow</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="w-full max-w-md">
+            <!-- Signup Card -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden p-6">
+                <div class="text-center mb-2">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-1">Create Your Account</h1>
+                    <p class="text-gray-500">Join us to manage your escrow transactions securely</p>
+                </div>
+
+                <!-- Signup Form -->
+                <form id="signupForm" class="mt-4 space-y-4">
+                    <!-- Full Name Field -->
+                    <div>
+                        <label for="fullname" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="fullname" name="fullname" placeholder="Full Name" 
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500">
+                        <p id="fullnameError" class="text-sm text-red-600 mt-1 hidden">Full Name cannot be empty</p>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Email Address" 
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500">
+                        <p id="emailError" class="text-sm text-red-600 mt-1 hidden">Please enter a valid email address</p>
+                    </div>
+
+                    <!-- Phone Number Field -->
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Phone Number" 
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500">
+                        <p id="phoneError" class="text-sm text-red-600 mt-1 hidden">Phone number cannot be empty</p>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password" 
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500">
+                        <p id="passwordError" class="text-sm text-red-600 mt-1 hidden">Password must be at least 8 characters</p>
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div>
+                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" 
+                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg placeholder-gray-400 focus:border-blue-500">
+                        <p id="confirmPasswordError" class="text-sm text-red-600 mt-1 hidden">Passwords do not match</p>
+                    </div>
+
+                    <!-- Terms & Conditions -->
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="terms" name="terms" type="checkbox" 
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="terms" class="font-medium text-gray-700">I agree to the <a href="#" class="text-blue-600 hover:underline">Terms & Conditions</a></label>
+                            <p id="termsError" class="text-sm text-red-600 mt-1 hidden">You must accept the terms and conditions</p>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                        Create Account
+                    </button>
+                </form>
+
+                <!-- Login Link -->
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">
+                        Already have an account? 
+                        <a href="login.html" class="text-blue-600 font-medium hover:underline">Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                // Redirect to dashboard if already logged in
+                window.location.href = 'dashboard.html';
+            }
+            
+            // Initialize users array in localStorage if it doesn't exist
+            if (!localStorage.getItem('users')) {
+                localStorage.setItem('users', JSON.stringify([]));
+            }
+        });
+
+        // Form validation and submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset error messages
+            const errorElements = document.querySelectorAll('[id$="Error"]');
+            errorElements.forEach(el => el.classList.add('hidden'));
+            
+            // Get form values
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+            
+            // Validation flags
+            let isValid = true;
+            
+            // Validate full name
+            if (!fullname) {
+                document.getElementById('fullnameError').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // Validate phone
+            if (!phone) {
+                document.getElementById('phoneError').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // Validate password
+            if (password.length < 8) {
+                document.getElementById('passwordError').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // Validate confirm password
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // Validate terms
+            if (!terms) {
+                document.getElementById('termsError').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // If form is valid, proceed with signup
+            if (isValid) {
+                // Get existing users
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                
+                // Check if email already exists
+                const emailExists = users.some(user => user.email === email);
+                
+                if (emailExists) {
+                    // Show error toast
+                    showToast('An account with this email already exists', 'error');
+                } else {
+                    // Add new user
+                    users.push({
+                        fullname,
+                        email,
+                        phone,
+                        password // Note: In a real app, you should hash the password
+                    });
+                    
+                    // Save updated users array
+                    localStorage.setItem('users', JSON.stringify(users));
+                    
+                    // Show success toast and redirect
+                    showToast('Account created successfully', 'success');
+                    
+                    // Redirect to login page after delay
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2500);
+                }
+            }
+        });
+        
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            // Set toast styles based on type
+            if (type === 'success') {
+                toast.className = 'toast p-4 rounded-lg bg-green-100 text-green-700 flex items-center';
+                toast.innerHTML = `
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <span>${message}</span>
+                `;
+            } else if (type === 'error') {
+                toast.className = 'toast p-4 rounded-lg bg-red-100 text-red-700 flex items-center';
+                toast.innerHTML = `
+                    <i class="fas fa-times-circle mr-2"></i>
+                    <span>${message}</span>
+                `;
+            }
+            
+            // Add toast to container
+            toastContainer.appendChild(toast);
+            
+            // Animate in
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
